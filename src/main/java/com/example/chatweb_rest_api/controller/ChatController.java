@@ -6,14 +6,17 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.ai.chat.messages.Message;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.chatweb_rest_api.dto.ChatHistory;
+import com.example.chatweb_rest_api.dto.ChatHistoryMapping;
 import com.example.chatweb_rest_api.dto.LoginUser;
 import com.example.chatweb_rest_api.dto.User;
 import com.example.chatweb_rest_api.repository.ChatHistoryRepository;
@@ -50,6 +53,14 @@ public class ChatController {
 		return new ResponseEntity<String>("오류가 발생 했습니다."	, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
+	// 저장한 대화 조회
+	@GetMapping("/userChatHistory/{userNo}/{page}")
+	public Page<ChatHistoryMapping> getChatHistories(
+			@PathVariable Long userNo,
+	        @PathVariable int page) {
+	    return chatService.getChatHistoryList(userNo, page);
+	}
+	
 	// 현재까지 대화(세션에 있는) 내용 가져오기
  	@GetMapping("/getChatHistory")
     public List<Message> getChatHistory(HttpSession session) {

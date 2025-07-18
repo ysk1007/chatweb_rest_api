@@ -60,7 +60,6 @@ public class UserService {
 
 	    Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("historyNo").descending());
 	    Page<LoginHistoryMapping> historyList = loginHistoryRepository.findByUser_UserNo(userNo, pageable);
-	    System.out.println("asdfasdfasdfadsf"+historyList.toString());
 	    
 	    return historyList;
 	}
